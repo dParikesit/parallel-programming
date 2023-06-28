@@ -1,0 +1,9 @@
+# OpenMP
+## Penjelasan Cara Kerja Paralelisasi Program
+Baris ```#pragma omp parallel num_threads(num_threads) ```ditambahkan, sebab baris tersebut berguna untuk melakukan inisialisasi paralelisasi OpenMP menggunakan thread sebanyak variabel num_threads yang telah didefinisikan sebelumnya. Berikutnya, ditambahkan pula baris kode ```#pragma omp for schedule(static, 1)``` sebanyak dua kali. Baris kode ini memiliki kegunaan untuk memberikan definisi pada penjadwalan. Penjadwalan ini digunakan untuk menentukan pembagian kerja looping pada threads yang telah ada. Proses penjadwalan ini dilakukan secara statis dengan cara melakukan eksekusi thread secara round robin. Digunakan chunk_size = 1 sedemikian sehingga setiap thread diharapkan hanya mengolah maksimal 1 iterasi.
+
+## Alasan Pemilihan Solusi
+Penjadwalan dipilih dilakukan secara statis dibandingkan secara dinamis. Penjadwalan secara dinamis berarti siapa yang datang terlebih dahulu, dia akan dilayani terlebih dahulu. Thread yang lebih dahulu siap untuk diproses akan dilayani terlebih dahulu. Ketika kami mencoba menggunakan dinamis, program berjalan dengan lebih cepat tetapi menghasilkan keluaran yang tidak masuk akal.
+
+## Mekanisme Data Sharing
+Pada ```#pragma omp for schedule(static, 1)```, secara implisit openMP memiliki serangkaian aturan untuk menentukan manakah variabel yang privat dan publik. Sebagai contoh, pada fungsi dft, variabel privat pada bagian perulangan adalah m, n, arg, dan exponent. Sementara itu, variabel publik pada bagian perulangan tersebut adalah element. Variabel ini dapat diakses oleh serangkaian thread sebagai suatu data publik sehingga pengaksesan dapat berjalan dengan lancar. 
