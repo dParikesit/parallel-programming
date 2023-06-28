@@ -28,6 +28,7 @@ void readMatrix(struct Matrix *m) {
 double complex dft(struct Matrix *mat, int k, int l) {
     double complex element = 0.0;
     int n;
+    #pragma omp parallel num_threads(omp_get_max_threads() * 1)
     #pragma omp for schedule(static, 1)
     for (int m = 0; m < mat->size; m++) {
         for (n = 0; n < mat->size; n++) {
